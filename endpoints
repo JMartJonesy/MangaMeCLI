@@ -1,0 +1,17 @@
+getChapter: https://doodle-manga-scraper.p.mashape.com/{siteid}/manga/{mangaid}/{chapterid}
+
+getGenreList: https://doodle-manga-scraper.p.mashape.com/{siteid}/search/genres
+
+getManga: https://doodle-manga-scraper.p.mashape.com/{siteid}/manga/{mangaid}/
+
+getManagByGenre: https://doodle-manga-scraper.p.mashape.com/{siteid}/search/genres/{genreid}
+
+getMangaList: https://doodle-manga-scraper.p.mashape.com/{siteid}
+
+getSiteList: https://doodle-manga-scraper.p.mashape.com/
+
+Search: https://doodle-manga-scraper.p.mashape.com/{siteid}/search
+
+Headers
+X-Mashape-Key: av7yog4uPAmshcKLnifDJRqXBuFFp1pGpcSjsnt3V0QxkJTaHt
+Accept: text/plain

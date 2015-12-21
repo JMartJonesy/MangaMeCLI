@@ -5,21 +5,19 @@
 # DEFAULT SETTINGS
 CC = clang++
 STD_VERSION = -std=c++14
+OTHERFLAGS = -pthread
 INCLUDES = -I /usr/local/Cellar/openssl/1.0.2e/include
 LINKS = -L /usr/local/Cellar/openssl/1.0.2e/lib
 
 # LIBS
-BOOST_LIBS = -lboost_system -lboost_thread-mt -pthread
+BOOST_LIBS = -lboost_system-mt -lboost_thread-mt -lboost_filesystem-mt -pthread
 CPPNETLIB_LIBS = -lcppnetlib-client-connections -lcppnetlib-uri -lcppnetlib-server-parsers
 OPENSSL_LIBS = -lssl -lcrypto
-OTHER_LIBS = -pthread
-ALL_LIBS = $(BOOST_LIBS) $(CPPNETLIB_LIBS) $(OPENSSL_LIBS) $(OTHER_LIBS)
-
-#OBJECTS = mangaMe.o
+ALL_LIBS = $(BOOST_LIBS) $(CPPNETLIB_LIBS) $(OPENSSL_LIBS)
 
 # RECIPES
 default : 
-	$(CC) $(STD_VERSION) $(INCLUDES) mangaMe.cpp -o MangaMe $(LINKS) $(ALL_LIBS) 
+	$(CC) $(STD_VERSION) $(OTHERFLAGS) $(INCLUDES) mangaMe.cpp -o MangaMe $(LINKS) $(ALL_LIBS)
 
 .PHONY : clean
 clean :
