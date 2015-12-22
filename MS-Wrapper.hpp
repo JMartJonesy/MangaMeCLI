@@ -40,10 +40,10 @@ namespace mangaScraper{ namespace getEndpoints{
 		return baseURI;
 	}
 
-	std::string Search(std::string siteid)
+	std::string Search(std::string siteid, std::string query)
 	{
 		std::stringstream ss;
-		ss << baseURI << siteid << "/search";
+		ss << baseURI << siteid << "/search?cover=0&info=0&l=10&q=" << query;
 		return ss.str();
 	}
 }}

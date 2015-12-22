@@ -10,7 +10,7 @@ getMangaList: https://doodle-manga-scraper.p.mashape.com/{siteid}
 
 getSiteList: https://doodle-manga-scraper.p.mashape.com/
 
-Search: https://doodle-manga-scraper.p.mashape.com/{siteid}/search
+Search: https://doodle-manga-scraper.p.mashape.com/{siteid}/search?cover=0&info=0&l=10&q={query}
 
 Headers
 X-Mashape-Key: av7yog4uPAmshcKLnifDJRqXBuFFp1pGpcSjsnt3V0QxkJTaHt
