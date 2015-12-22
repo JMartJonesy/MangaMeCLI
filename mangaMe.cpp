@@ -82,9 +82,10 @@ propTree::ptree getJsonTree(string uri)
 
 // TODO: Maybe short circuit downloadChapters if chapter isnt found
 // Downloads a single chapter
-void downloadChapter(string manga, int chapter)
+void downloadChapter(string manga, string mangaId, int chapter)
 {
-	propTree::ptree pt = getJsonTree(endPoints::getChapter(siteId, manga, to_string(chapter)));
+	propTree::ptree pt = getJsonTree(endPoints::getChapter(siteId, mangaId, to_string(chapter)));
+	cout << endPoints::getChapter(siteId, mangaId, to_string(chapter)) << endl;
 	if(pt.count("name") != 0)
 	{
 		fs::path mangaPath = baseDownloadPath;
@@ -127,7 +128,7 @@ void downloadChapter(string manga, int chapter)
 }
 
 // Downloads chapters in range from sChaptert to eChapter
-void downloadChapters(string manga, int sChapter, int eChapter)
+void downloadChapters(string manga, string mangaId, int sChapter, int eChapter)
 {
 	bool good = true;
 	try
@@ -154,14 +155,14 @@ void downloadChapters(string manga, int sChapter, int eChapter)
 	}
 	if( good )
 		for(int i = sChapter; i <= eChapter; ++i)
-			downloadChapter(manga, i);
+			downloadChapter(manga, mangaId, i);
 }
 
 // Downloads all chapters of given manga
-void downloadManga(string manga)
+void downloadManga(string manga, string mangaId)
 {
 	int chapterCount = 0;
-	propTree::ptree pt = getJsonTree(endPoints::getManga(siteId, manga));
+	propTree::ptree pt = getJsonTree(endPoints::getManga(siteId, mangaId));
 	BOOST_FOREACH(propTree::ptree::value_type &v, pt.get_child("chapters"))
 	{
 		for(auto it = v.second.begin(); it != v.second.end(); ++it)
@@ -171,7 +172,8 @@ void downloadManga(string manga)
 		}
 	}
 
-	downloadChapters(manga, 1, chapterCount);
+	cout << chapterCount << endl;
+	downloadChapters(manga, mangaId, 1, chapterCount);
 }
 
 // Prints out search results for query
@@ -278,19 +280,22 @@ int main(int argc, char *argv[]) {
 					break;
 				case 2:
 					cout << "Input search query: ";
-					cin >> choice;
+					cin.ignore(1000, '\n');
+					getline(cin, choice);
 					searchManga(choice);
 					break;	
 				case 3:
 					int sInput = 0;
 					cout << "Input manga: ";
-					cin >> choice;
+					cin.ignore(1000, '\n');
+					getline(cin, choice);
 					transform(choice.begin(), choice.end(), choice.begin(), ::tolower);
 					if(mangaList.find(choice) == mangaList.end())
 					{
 						cout << choice << " not found" << endl;
 						break;
 					}
+					string mangaId = mangaList[choice];
 					int sChapter = 0;
 					int eChapter = 0;
 					cout << "Download" << endl;
@@ -303,19 +308,19 @@ int main(int argc, char *argv[]) {
 					switch(sInput)
 					{
 						case 1:
-							downloadManga(choice);
+							downloadManga(choice, mangaId);
 							break;
 						case 2:
 							cout << "Input chapter: ";
 							cin >> sChapter;
-							downloadChapters(choice, sChapter, sChapter);
+							downloadChapters(choice, mangaId, sChapter, sChapter);
 							break;
 						case 3:
 							cout << "Input start chapter: ";
 							cin >> sChapter;
 							cout << "Input end chapter: ";
 							cin >> eChapter;
-							downloadChapters(choice, sChapter, eChapter);
+							downloadChapters(choice, mangaId, sChapter, eChapter);
 					}
 					
 			}
