@@ -19,6 +19,9 @@ ALL_LIBS = $(BOOST_LIBS) $(CPPNETLIB_LIBS) $(OPENSSL_LIBS)
 default : 
 	$(CC) $(STD_VERSION) $(OTHERFLAGS) $(INCLUDES) mangaMe.cpp -o MangaMe $(LINKS) $(ALL_LIBS)
 
+test : 
+	$(CC) $(STD_VERSION) $(OTHERFLAGS) $(INCLUDES) test.cpp $(LINKS) $(ALL_LIBS)
+
 .PHONY : clean
 clean :
 	rm mangaMe

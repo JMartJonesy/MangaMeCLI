@@ -85,13 +85,21 @@ propTree::ptree getJsonTree(string uri)
 void downloadChapter(string manga, string mangaId, int chapter)
 {
 	propTree::ptree pt = getJsonTree(endPoints::getChapter(siteId, mangaId, to_string(chapter)));
-	cout << endPoints::getChapter(siteId, mangaId, to_string(chapter)) << endl;
-	if(pt.count("name") != 0)
+	if(pt.count("pages") != 0)
 	{
 		fs::path mangaPath = baseDownloadPath;
 		mangaPath /= manga;
-		mangaPath /= to_string(chapter) + "-" + pt.get<string>("name");
-		cout << "Downloading chapter " << chapter << "-" << pt.get<string>("name") << endl;
+		if(pt.count("name") != 0)
+		{
+			mangaPath /= to_string(chapter) + "-" + pt.get<string>("name");
+			cout << "Downloading chapter " << chapter << "-" << pt.get<string>("name") << endl;
+		}
+		else
+		{
+			mangaPath /= to_string(chapter);
+			cout << "Downloading chapter " << chapter << endl;
+		}
+
 		if(!exists(mangaPath) || !is_directory(mangaPath))
 		{
 			int pageCount = 0;
@@ -167,12 +175,11 @@ void downloadManga(string manga, string mangaId)
 	{
 		for(auto it = v.second.begin(); it != v.second.end(); ++it)
 		{
-			if(it->first.compare("chapterId") != 0)
+			if(it->first.compare("chapterId") == 0)
 				++chapterCount;
 		}
 	}
 
-	cout << chapterCount << endl;
 	downloadChapters(manga, mangaId, 1, chapterCount);
 }
 
@@ -181,6 +188,7 @@ void searchManga(string query)
 {
 	bool results = false;
 	propTree::ptree pt = getJsonTree(endPoints::Search(siteId, query));
+	cout << "---Search Results---" << endl;
 	BOOST_FOREACH(propTree::ptree::value_type &v, pt.get_child(""))
 	{
 		for(auto it = v.second.begin(); it != v.second.end(); ++it)
@@ -194,9 +202,7 @@ void searchManga(string query)
 	}
 
 	if( !results )
-	{
 		cout << "No results found" << endl;
-	}
 }
 
 // Prints all manga found on MangaReader.net
@@ -324,6 +330,7 @@ int main(int argc, char *argv[]) {
 					}
 					
 			}
+			cout << endl;
 		}
 	}
 	catch (std::exception &e) {
