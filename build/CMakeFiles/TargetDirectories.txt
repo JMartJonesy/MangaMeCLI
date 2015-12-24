@@ -1,0 +1,2 @@
+/Users/LittleNewt/gitness/mangaMe/build/CMakeFiles/gui.dir
+/Users/LittleNewt/gitness/mangaMe/build/CMakeFiles/mangaMe.dir
