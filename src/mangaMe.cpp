@@ -42,6 +42,26 @@ string siteId = "mangareader.net"; // change later
 stringmap mangaList;
 stringmap printList;
 
+// HELPER FUNCTIONS
+string trim(string& str)
+{
+	size_t fst = str.find_first_not_of(' ');
+	size_t lst = str.find_last_not_of(' ');
+	return str.substr(fst, lst - fst + 1);
+}
+
+bool adjacentSpaces(char& ch1, char& ch2)
+{
+	return ch1 == ch2 && ch1 == ' ';
+}
+
+void replaceWhitespace(string& str)
+{
+	string::iterator n = unique(str.begin(), str.end(), adjacentSpaces);
+	str.erase(n, str.end());
+	replace(str.begin(), str.end(), ' ', '+');
+}
+
 // FUNCTIONS
 void printDownloadStatus(int curr, int outOf)
 {
@@ -50,6 +70,7 @@ void printDownloadStatus(int curr, int outOf)
 	int spaces = 50 - pounds;
 
 	cout << "\r" << flush;
+	cout << "Page:" << curr << "/" << outOf << " " << flush;
 	for(int i = 0; i < pounds; ++i)
 		cout << "#" << flush;
 	for(int i = 0; i < spaces; ++i)
@@ -288,6 +309,8 @@ int main(int argc, char *argv[]) {
 					cout << "Input search query: ";
 					cin.ignore(1000, '\n');
 					getline(cin, choice);
+					choice = trim(choice);
+					replaceWhitespace(choice);
 					searchManga(choice);
 					break;	
 				case 3:

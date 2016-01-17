@@ -1,23 +1,20 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.4.1)
+#TODO Figure out why I have to run CMake twice to get
+# CMake to use c++11
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 PROJECT(MangaMe)
 INCLUDE_DIRECTORIES(includes)
 ADD_EXECUTABLE(mangaMe src/mangaMe.cpp)
-ADD_EXECUTABLE(gui src/gui.cpp)
 
-set(Boost_USE_MULTITHREADED ON)
+SET(Boost_USE_MULTITHREADED ON)
 FIND_PACKAGE(Boost 1.59.0 REQUIRED COMPONENTS system thread filesystem)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 TARGET_LINK_LIBRARIES(mangaMe ${Boost_LIBRARIES})
 
-SET(OPENSSL_LIB_DIR /usr/local/Cellar/openssl/1.0.2e/lib)
-INCLUDE_DIRECTORIES(/usr/local/Cellar/openssl/1.0.2e/include)
+SET(OPENSSL_LIB_DIR /usr/local/Cellar/openssl/1.0.2e_1/lib)
+INCLUDE_DIRECTORIES(/usr/local/Cellar/openssl/1.0.2e_1/include)
 TARGET_LINK_LIBRARIES(mangaMe ${OPENSSL_LIB_DIR}/libcrypto.dylib ${OPENSSL_LIB_DIR}/libssl.dylib)
 
 FIND_PACKAGE(cppnetlib 0.11)
 INCLUDE_DIRECTORIES(${CPPNETLIB_INCLUDE_DIRS})
 TARGET_LINK_LIBRARIES(mangaMe ${CPPNETLIB_LIBRARIES})
-
-FIND_PACKAGE(wxWidgets 3.0)
-INCLUDE(${wxWidgets_USE_FILE})
-TARGET_LINK_LIBRARIES(gui ${wxWidgets_LIBRARIES})
