@@ -1,20 +1,20 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.4.1)
 #TODO Figure out why I have to run CMake twice to get
 # CMake to use c++11
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 PROJECT(MangaMe)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 INCLUDE_DIRECTORIES(includes)
 ADD_EXECUTABLE(mangaMe src/mangaMe.cpp)
 
 SET(Boost_USE_MULTITHREADED ON)
-FIND_PACKAGE(Boost 1.59.0 REQUIRED COMPONENTS system thread filesystem)
+FIND_PACKAGE(Boost REQUIRED COMPONENTS system thread filesystem)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 TARGET_LINK_LIBRARIES(mangaMe ${Boost_LIBRARIES})
 
-SET(OPENSSL_LIB_DIR /usr/local/Cellar/openssl/1.0.2e_1/lib)
-INCLUDE_DIRECTORIES(/usr/local/Cellar/openssl/1.0.2e_1/include)
+SET(OPENSSL_LIB_DIR /usr/local/Cellar/openssl/1.0.2f/lib)
+INCLUDE_DIRECTORIES(/usr/local/Cellar/openssl/1.0.2f/include)
 TARGET_LINK_LIBRARIES(mangaMe ${OPENSSL_LIB_DIR}/libcrypto.dylib ${OPENSSL_LIB_DIR}/libssl.dylib)
 
-FIND_PACKAGE(cppnetlib 0.11)
+FIND_PACKAGE(cppnetlib)
 INCLUDE_DIRECTORIES(${CPPNETLIB_INCLUDE_DIRS})
 TARGET_LINK_LIBRARIES(mangaMe ${CPPNETLIB_LIBRARIES})
